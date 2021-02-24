@@ -57,15 +57,6 @@ source $HOME/.bashrc
 pihole -a -p
 ``` 
 
-3) Programar actualización diaria
-```bash
-
-sudo cat <<EOF > /etc/cron.daily/update-pihole-docker-compose
-#!/bin/bash
-cd 
-docker-compose exec pihole pihole -up
-EOF
-
 3) Otros comandos:
 
 a) Estadísticas:
