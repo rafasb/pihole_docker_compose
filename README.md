@@ -57,7 +57,23 @@ source $HOME/.bashrc
 pihole -a -p
 ``` 
 
-3) Otros comandos:
+3) Actualización diaria (ejecutar en el directorio de trabajo)
+NOTA: En algún caso puede ser necesario el comando: `sudo aa-remove-unknown` si falla el comando `docker-compose stop`
+
+```bash
+sudo cat <<EOF > update-pihole.sh
+#!/bin/bash
+cd $PWD
+docker-compose stop
+docker-compose rm -f
+docker-compose pull
+docker-compose up -d
+EOF
+sudo cp update-pihole.sh /etc/cron.daily/
+sudo chmod +x /etc/cron.daily/update-pihole.sh
+``` 
+
+4) Otros comandos:
 
 a) Estadísticas:
 
