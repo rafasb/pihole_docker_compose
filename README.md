@@ -1,4 +1,4 @@
-# pihole_docker_compose
+# PiHole sobre docker-compose
 Desplegar PiHole usando docker-compose.
 
 Adaptado para evitar el DHCP (delegado en router)
