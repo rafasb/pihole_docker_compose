@@ -1,4 +1,4 @@
-# pihole_docker_compose
+# PiHole sobre docker-compose
 Desplegar PiHole usando docker-compose.
 
 Adaptado para evitar el DHCP (delegado en router)
@@ -42,6 +42,37 @@ search lan
 EOF
 ```
 
+**Actualización**
+
+En ciertas ocasiones el puerto 53 puede permanecer ocupado por el proceso dnsmasq (en mi caso el servicio libvirtd lo está empleando). 
+
+Esto lo podemos comprobar con el comando 
+```bash
+sudo netstat -nlup
+```
+Para resolver el problema recomiendo instalar o mantener el servicio dnsmasq y configurarlo adecuadamente. De esta manera cacheará respuestas y remitirá las peticiones DNS al contenedor. Seguiremos los siguientes pasos:
+1) Instalar dnsmasq
+```bash
+sudo apt-get install dnsmasq
+```
+2) Editar el fichero por defecto del servicio dnsmasq
+```bash
+sudo echo server=127.0.0.1#5353 >> /etc/dnsmasq.conf
+```
+3) Editar el fichero docker-compose.yml cambiando el puerto
+
+*ANTES:*
+```yaml
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+```
+*DESPUES:*
+```yaml
+    ports:
+      - "5353:53/tcp"
+      - "5353:53/udp"
+```
 ## Intrucciones complementarias
 
 Podemos hacer uso de los comando de PiHole desde el host usando `docker-compose exec pihole <comando>`
@@ -58,6 +89,7 @@ pihole -a -p
 ``` 
 
 3) Actualización diaria (ejecutar en el directorio de trabajo)
+
 NOTA: En algún caso puede ser necesario el comando: `sudo aa-remove-unknown` si falla el comando `docker-compose stop`
 
 ```bash
