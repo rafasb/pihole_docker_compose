@@ -7,15 +7,22 @@ Password web: changeme <-- HAY QUE CAMBIARLO!!
 
 ## Prerequisitos del host
 En el equipo donde vamos a instalar el servicio PiHole.
+
 1) Tener instalado docker: https://docs.docker.com/engine/install/ubuntu/
+
 2) Tener instalado docker-compose: https://docs.docker.com/compose/install/
+
 3) Incluir al usuario en el grupo docker (Ubuntu): usermod -a -G docker $USER 
+
 4) El usuario debe disponer de permisos para usar `sudo`
 
 ## Intrucciones básicas
 1) Clonar el directorio con `git clone https://github.com/rafasb/pihole_docker_compose.git`
+
 2) Cambiar el directorio con `cd pihole_docker_compose`
+
 3) Ejecutar `docker-compose up -d`
+
 4) Configurar el DHCP del router de casa para que el servidor DNS sea la IP de nuestro host 
 
 ### Para equipos Ubuntu con DNSMASQ o SYSTEMD-RESOLVED instalado:
