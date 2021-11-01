@@ -50,7 +50,10 @@ Esto lo podemos comprobar con el comando
 ```bash
 sudo netstat -nlup
 ```
-Para resolver el problema recomiendo instalar o mantener el servicio dnsmasq y configurarlo adecuadamente. De esta manera cacheará respuestas y remitirá las peticiones DNS al contenedor. Seguiremos los siguientes pasos:
+Para resolver el problema recomiendo dos opciones. Prefiero la segunda opción para mantener datos de clientes en PiHole, pero solo es válida si no se emplea libvirt por parte de otras aplicaciones:
+
+a) Instalar o mantener el servicio dnsmasq y configurarlo adecuadamente. De esta manera cacheará respuestas y remitirá las peticiones DNS al contenedor. Seguiremos los siguientes pasos:
+
 1) Instalar dnsmasq
 ```bash
 sudo apt-get install dnsmasq
@@ -73,6 +76,15 @@ sudo echo server=127.0.0.1#5353 >> /etc/dnsmasq.conf
       - "5353:53/tcp"
       - "5353:53/udp"
 ```
+
+b) Eliminar el uso de libvirt con los siguientes pasos (solo si libvirt no se emplea para servicio de arranque de máquinas virtuales):
+
+1) Desinstalar libvirt 
+```bash
+sudo apt-get remove libvirt-daemon-system
+sudo apt-get autoremove 
+```
+
 ## Intrucciones complementarias
 
 Podemos hacer uso de los comando de PiHole desde el host usando `docker-compose exec pihole <comando>`

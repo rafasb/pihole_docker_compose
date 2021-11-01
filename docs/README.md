@@ -7,22 +7,15 @@ Password web: changeme <-- HAY QUE CAMBIARLO!!
 
 ## Prerequisitos del host
 En el equipo donde vamos a instalar el servicio PiHole.
-
 1) Tener instalado docker: https://docs.docker.com/engine/install/ubuntu/
-
 2) Tener instalado docker-compose: https://docs.docker.com/compose/install/
-
 3) Incluir al usuario en el grupo docker (Ubuntu): usermod -a -G docker $USER 
-
 4) El usuario debe disponer de permisos para usar `sudo`
 
 ## Intrucciones básicas
 1) Clonar el directorio con `git clone https://github.com/rafasb/pihole_docker_compose.git`
-
 2) Cambiar el directorio con `cd pihole_docker_compose`
-
 3) Ejecutar `docker-compose up -d`
-
 4) Configurar el DHCP del router de casa para que el servidor DNS sea la IP de nuestro host 
 
 ### Para equipos Ubuntu con DNSMASQ o SYSTEMD-RESOLVED instalado:
@@ -57,7 +50,10 @@ Esto lo podemos comprobar con el comando
 ```bash
 sudo netstat -nlup
 ```
-Para resolver el problema recomiendo instalar o mantener el servicio dnsmasq y configurarlo adecuadamente. De esta manera cacheará respuestas y remitirá las peticiones DNS al contenedor. Seguiremos los siguientes pasos:
+Para resolver el problema recomiendo dos opciones. Prefiero la segunda opción para mantener datos de clientes en PiHole, pero solo es válida si no se emplea libvirt por parte de otras aplicaciones:
+
+a) Instalar o mantener el servicio dnsmasq y configurarlo adecuadamente. De esta manera cacheará respuestas y remitirá las peticiones DNS al contenedor. Seguiremos los siguientes pasos:
+
 1) Instalar dnsmasq
 ```bash
 sudo apt-get install dnsmasq
@@ -80,6 +76,15 @@ sudo echo server=127.0.0.1#5353 >> /etc/dnsmasq.conf
       - "5353:53/tcp"
       - "5353:53/udp"
 ```
+
+b) Eliminar el uso de libvirt con los siguientes pasos (solo si libvirt no se emplea para servicio de arranque de máquinas virtuales):
+
+1) Desinstalar libvirt 
+```bash
+sudo apt-get remove libvirt-daemon-system
+sudo apt-get autoremove 
+```
+
 ## Intrucciones complementarias
 
 Podemos hacer uso de los comando de PiHole desde el host usando `docker-compose exec pihole <comando>`
